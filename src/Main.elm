@@ -8,8 +8,8 @@ import Element.Background as Background
 import Http
 import Json.Decode as D
 
--- (destination, seconds)
-type alias Entry = (String, Int)
+-- (seconds, destination)
+type alias Entry = (Int, String)
 
 type Model = Loading
            | Failure String
@@ -40,11 +40,11 @@ fetch = Http.get
 entries_decoder : D.Decoder (List Entry)
 entries_decoder = D.list entry_decoder
 
-make_entry : String -> Int -> Entry
+make_entry : Int -> String -> Entry
 make_entry a b = (a, b)
 
 entry_decoder : D.Decoder Entry
-entry_decoder = D.map2 make_entry (D.field "towards" D.string) (D.field "timeToStation" D.int)
+entry_decoder = D.map2 make_entry (D.field "timeToStation" D.int) (D.field "towards" D.string)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
@@ -63,7 +63,7 @@ update msg model = case msg of
         _ -> Time.millisToPosix 0
     in
       (Data
-        { entries = entries
+        { entries = List.sort entries
         , time = time
         }
       , Cmd.none)
@@ -104,7 +104,7 @@ something m =
   m |> List.take 3 |> List.indexedMap entry |> E.column [E.height E.fill, E.centerX, E.centerY]
 
 entry : Int -> Entry -> E.Element msg
-entry num (dest, time) = E.row [E.width (E.px 350), E.centerY, E.spacing 20] [E.text (String.fromInt num), E.el [E.alignLeft] <| E.text dest, E.el [E.alignRight] <| E.text (String.fromInt (time // 60) ++ " mins")]
+entry num (time, dest) = E.row [E.width (E.px 350), E.centerY, E.spacing 20] [E.text (String.fromInt num), E.el [E.alignLeft] <| E.text dest, E.el [E.alignRight] <| E.text (String.fromInt (time // 60) ++ " mins")]
 
 -- Ravenscourt Park as an example; TODO let user switch
 stop_id = "940GZZLUGPK"
