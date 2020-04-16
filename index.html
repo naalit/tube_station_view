@@ -12520,18 +12520,21 @@ var $author$project$Main$entry = F2(
 			_List_fromArray(
 				[
 					$mdgriffith$elm_ui$Element$text(
-					$elm$core$String$fromInt(num)),
+					$elm$core$String$fromInt(num + 1)),
 					A2(
 					$mdgriffith$elm_ui$Element$el,
 					_List_fromArray(
 						[$mdgriffith$elm_ui$Element$alignLeft]),
 					$mdgriffith$elm_ui$Element$text(dest)),
-					A2(
-					$mdgriffith$elm_ui$Element$el,
-					_List_fromArray(
-						[$mdgriffith$elm_ui$Element$alignRight]),
-					$mdgriffith$elm_ui$Element$text(
-						$elm$core$String$fromInt((time / 60) | 0) + ' mins'))
+					function () {
+					var mins = $elm$core$Basics$round(time / 60);
+					return A2(
+						$mdgriffith$elm_ui$Element$el,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$alignRight]),
+						$mdgriffith$elm_ui$Element$text(
+							(!mins) ? ' ' : ($elm$core$String$fromInt(mins) + ' mins')));
+				}()
 				]));
 	});
 var $elm$core$List$repeatHelp = F3(
