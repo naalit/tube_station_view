@@ -122,7 +122,7 @@ zone = Time.customZone (1 * 60) []
 
 something : List Entry -> E.Element msg
 something m =
-  m |> List.take 3 |> List.indexedMap entry |> E.column [E.height E.fill, E.centerX]
+  m |> List.take 3 |> List.indexedMap entry |> (\l -> l ++ List.repeat (3 - List.length l) (E.text " ")) |> E.column [E.height E.fill, E.centerX]
 
 entry : Int -> Entry -> E.Element msg
 entry num (time, dest) = E.row [E.width (E.px 280), E.centerY, E.spacing 20] [E.text (String.fromInt num), E.el [E.alignLeft] <| E.text dest, E.el [E.alignRight] <| E.text (String.fromInt (time // 60) ++ " mins")]

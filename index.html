@@ -12534,6 +12534,27 @@ var $author$project$Main$entry = F2(
 						$elm$core$String$fromInt((time / 60) | 0) + ' mins'))
 				]));
 	});
+var $elm$core$List$repeatHelp = F3(
+	function (result, n, value) {
+		repeatHelp:
+		while (true) {
+			if (n <= 0) {
+				return result;
+			} else {
+				var $temp$result = A2($elm$core$List$cons, value, result),
+					$temp$n = n - 1,
+					$temp$value = value;
+				result = $temp$result;
+				n = $temp$n;
+				value = $temp$value;
+				continue repeatHelp;
+			}
+		}
+	});
+var $elm$core$List$repeat = F2(
+	function (n, value) {
+		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
+	});
 var $elm$core$List$takeReverse = F3(
 	function (n, list, kept) {
 		takeReverse:
@@ -12668,10 +12689,18 @@ var $author$project$Main$something = function (m) {
 				$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
 				$mdgriffith$elm_ui$Element$centerX
 			]),
-		A2(
-			$elm$core$List$indexedMap,
-			$author$project$Main$entry,
-			A2($elm$core$List$take, 3, m)));
+		function (l) {
+			return _Utils_ap(
+				l,
+				A2(
+					$elm$core$List$repeat,
+					3 - $elm$core$List$length(l),
+					$mdgriffith$elm_ui$Element$text(' ')));
+		}(
+			A2(
+				$elm$core$List$indexedMap,
+				$author$project$Main$entry,
+				A2($elm$core$List$take, 3, m))));
 };
 var $author$project$Main$edges = {bottom: 0, left: 0, right: 0, top: 0};
 var $author$project$Main$pad = function (s) {
