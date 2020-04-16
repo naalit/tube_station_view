@@ -78,7 +78,7 @@ show_fail e = case e of
   Http.BadBody x -> "bad body:\n" ++ x
 
 --view : Model -> Html.Html msg
-view m = E.layout [E.behindContent (E.image [E.centerX, E.centerY] { src = "/station.png", description = "" }), E.width E.fill, E.height E.fill, E.centerX, E.centerY] <| case m of
+view m = E.layout [E.behindContent (E.image [E.centerX, E.centerY] { src = "https://tolziplohu.github.io/tube_station_view/station.png", description = "" }), E.width E.fill, E.height E.fill, E.centerX, E.centerY] <| case m of
   Loading -> E.text "Loading"
   Failure e -> E.text ("Failed because of " ++ e)
   Data d -> E.column
